@@ -1,0 +1,116 @@
+@media only screen and (max-width: 600px) {
+    .THIS .tab1{
+        visibility:visible!important;
+    }
+    .THIS .slds-context-bar{
+        visibility:hidden!important;
+    }
+}
+
+.THIS .slds-context-bar{
+    visibility:visible;
+}
+
+.THIS .tab1{
+    visibility:hidden;
+}
+.THIS {
+    
+}
+.THIS .slds-card__header{
+        background-color: aliceblue;
+}
+
+.THIS .slds-modal__header
+{
+    background-color: aliceblue;
+}
+.THIS .slds-card__footer
+{
+    background-color: aliceblue;
+}
+.THIS .eachField.narrowRegion{
+    width:100%;
+}
+.THIS .eachField{
+    width:50%;
+    display:inline-block;
+}
+.THIS.slds-spinner_container {  
+  z-index: 10000;
+  position: fixed;   
+}
+
+
+.THIS .topnav {
+  overflow: hidden;
+  background-color: #04aa6d;
+   
+}
+
+.THIS .topnav a {
+  float: left;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+
+
+
+
+.THIS .topnav a:hover {
+  background-color: #04aa6d;;
+  color: black;
+}
+
+.THIS .topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.THIS .topnav .icon {
+  display: none;
+}
+
+.THIS .fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: xx-large;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.THIS i:hover {
+  background-color: #04aa6d;
+}
+@media screen and (max-width: 600px) {
+ .THIS .topnav a:not(:first-child) {display: none;}
+  .THIS .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .THIS .topnav.responsive {position: relative;}
+  .THIS .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+ .THIS .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+    
+    .THIS .wrapper {
+        width: 250px !important;
+        height: 250px !important;
+    }
+}

@@ -1,0 +1,887 @@
+({
+    
+    doInit : function(component, event) {
+        //console.log('success');
+        var action = component.get("c.Covidresult");
+        action.setCallback(this, function(response) {
+            var state = response.getState();
+            if(state === "SUCCESS")
+            {
+                var StoreResponse = response.getReturnValue();
+                console.log('res',StoreResponse);
+                component.set('v.districtList',StoreResponse);
+                var Total = [];
+                var state = [];
+                for(var singlekey in StoreResponse)
+                {
+                    if(singlekey == 'AP')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Andhra Pradesh'})
+                    }
+                    if(singlekey == 'AR')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Arunachal Pradesh'})
+                    }
+                    if(singlekey == 'AS')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Assam'})
+                    }
+                    if(singlekey == 'BR')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Bihar'})
+                    }
+                    if(singlekey == 'CT')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Chhattisgarh'})
+                    }
+                    if(singlekey == 'GA')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Goa'})
+                    }
+                    if(singlekey == 'GJ')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Gujarat'})
+                    }
+                    if(singlekey == 'HR')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Haryana'})
+                    }
+                    if(singlekey == 'HP')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Himachal Pradesh'})
+                    }
+                    if(singlekey == 'JK')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Jammu and Kashmir'})
+                    }
+                    if(singlekey == 'JH')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Jharkhand'})
+                    }
+                    if(singlekey == 'KA')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Karnataka'})
+                    }
+                    if(singlekey == 'KL')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Kerala'})
+                    }
+                    if(singlekey == 'MP')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Madhya Pradesh'})
+                    }
+                    if(singlekey == 'MH')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Maharashtra'})
+                    }
+                    if(singlekey == 'MN')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Manipur'})
+                    }
+                    if(singlekey == 'ML')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Meghalaya'})
+                    }
+                    if(singlekey == 'MZ')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Mizoram'})
+                    }
+                    if(singlekey == 'NL')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Nagaland'})
+                    }
+                    if(singlekey == 'OR')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Odisha'})
+                    }
+                    if(singlekey == 'PB')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Punjab'})
+                    }
+                    if(singlekey == 'RJ')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Rajasthan'})
+                    }
+                    if(singlekey == 'SK')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Sikkim'})
+                    }
+                    if(singlekey == 'TN')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Tamil Nadu'})
+                    }
+                    if(singlekey == 'TR')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Tripura'})
+                    }
+                    if(singlekey == 'UT')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Uttarakhand'})
+                    }
+                    if(singlekey == 'UP')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Uttar Pradesh'})
+                    }
+                    if(singlekey == 'WB')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'West Bengal'})
+                    }
+                    if(singlekey == 'AN')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Andaman and Nicobar Islands'})
+                    }
+                    if(singlekey == 'DN')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Dadra and Nagar Haveli and Daman and Diu'})
+                    }
+                    
+                    if(singlekey == 'DL')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Delhi'})
+                    }
+                    if(singlekey == 'LD')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Lakshadweep'})
+                    }
+                    if(singlekey == 'PY')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Pondicherry'})
+                    }
+                    if(singlekey == 'TG')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Telangana'})
+                    }
+                    if( singlekey == 'CH')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Chandigarh'})   
+                    }
+                    if( singlekey == 'LA')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Ladakh'})   
+                    }
+                    if( singlekey == 'TT')
+                    {
+                        Total.push({ value:StoreResponse[singlekey],key : 'India'})   
+                    }
+                    
+                }
+               // console.log('map',state);
+                
+                var labels = [];
+                var values = [];
+                
+                var str = Total[0].value.total;
+                console.log('str',str);
+                var dataMap = new Map(Object.entries(str));
+                var resultMap = new Map();
+                 var resultMap = new Map();
+                for (const key of dataMap.keys())  {
+                    labels.push(key);
+                }
+                for(const key of dataMap.values())
+                {
+                    values.push(key);  
+                }
+               
+                var barColors = ["red", "green","blue","orange","yellow","pink","brown"];
+                
+                new Chart("myChart", {
+                    type: "doughnut",
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: values
+                        }]
+                    },
+                    options: {
+                        //legend: {display: false},
+                        title: {
+                            display: true,
+                            text: "Covid-19 Cases in India"
+                        }
+                    }
+                });
+                
+               
+                
+        
+                
+                var dt  =   new Date(Total[0].value.meta.last_updated).toString();
+               // console.log('dt',dt);
+                var index = dt.lastIndexOf(':') +3
+                console.log('sgfs',dt.substring(0, index))
+                component.set('v.LastUpdatedDate',dt.substring(0, index));
+                component.set("v.stateList", state);
+                component.set("v.UnfilteredData",state);  
+                component.set('v.totalList',Total);
+                
+                // chartsjs start
+            
+                // chartjs end 
+            } // if statement end 
+            else if (state === "INCOMPLETE") {
+                // do something
+            }
+                else if (state === "ERROR") {
+                    var errors = response.getError();
+                    if (errors) {
+                        if (errors[0] && errors[0].message) {
+                            console.log("Error message: " + 
+                                        errors[0].message);
+                        }
+                    } else {
+                        console.log("Unknown error");
+                    }
+                } 
+            
+        });
+        $A.enqueueAction(action);
+    },
+    
+    
+   
+    
+    
+    // this function automatic call by aura:waiting event  
+    showSpinner: function(component, event, helper) {
+       // make Spinner attribute true for display loading spinner 
+        component.set("v.Spinner", true); 
+   },
+    
+ // this function automatic call by aura:doneWaiting event 
+    hideSpinner : function(component,event,helper){
+     // make Spinner attribute to false for hide loading spinner    
+       component.set("v.Spinner", false);
+    },
+    
+    handleDistricts : function (component, event, helper) {
+        var contactToGo = event.getSource().get("v.name");
+        component.set("v.statename",contactToGo);
+       // console.log('contactToGo '+contactToGo);
+        var district =  component.get("v.districtList");
+       // console.log('dis',district);
+        var statedis =  district;
+        var state = [];
+        for(var singlekey in statedis)
+        {
+            if(contactToGo == 'Andhra Pradesh')
+            {
+                if(singlekey == 'AP')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Andhra Pradesh'})
+                }
+            }
+            if(contactToGo == 'Arunachal Pradesh')
+            {
+                if(singlekey == 'AR')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Arunachal Pradesh'})
+                }
+            }
+            if(contactToGo == 'Andaman and Nicobar Islands')
+            {
+                if(singlekey == 'AN')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Andaman and Nicobar Islands'})
+                }
+            }
+            if(contactToGo == 'Assam')
+            {
+                if(singlekey == 'AS')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Assam'})
+                }
+            }
+            if(contactToGo == 'Bihar')
+            {
+                if(singlekey == 'BR')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Bihar'})
+                }
+            }
+            if(contactToGo == 'Chandigarh')
+            {
+                if(singlekey == 'CH')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Chandigarh'})
+                }
+            }
+            if(contactToGo == 'Chhattisgarh')
+            {
+                if(singlekey == 'CT')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Chhattisgarh'})
+                }
+            }
+            if(contactToGo == 'Delhi')
+            {
+                if(singlekey == 'DL')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Delhi'})
+                }
+            }
+            if(contactToGo == 'Dadra and Nagar Haveli and Daman and Diu')
+            {
+                if(singlekey == 'DN')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Dadra and Nagar Haveli and Daman and Diu'})
+                }
+            }
+            if(contactToGo == 'Goa')
+            {
+                if(singlekey == 'GA')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Goa'})
+                }
+            }
+            
+            if(contactToGo == 'Gujarat')
+            {
+                if(singlekey == 'GJ')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Gujarat'})
+                }
+            }
+            if(contactToGo == 'Himachal Pradesh')
+            {
+                if(singlekey == 'HP')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Himachal Pradesh'})
+                }
+            }
+            if(contactToGo == 'Haryana')
+            {
+                if(singlekey == 'HR')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Haryana'})
+                }
+            }
+            if(contactToGo == 'Jharkhand')
+            {
+                if(singlekey == 'JH')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Jharkhand'})
+                }
+            }
+            if(contactToGo == 'Jammu and Kashmir')
+            {
+                if(singlekey == 'JK')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Jammu and Kashmir'})
+                }
+            }
+            if(contactToGo == 'Karnataka')
+            {
+                if(singlekey == 'KA')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Karnataka'})
+                }
+            }
+            if(contactToGo == 'Kerala')
+            {
+                if(singlekey == 'KL')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Kerala'})
+                }
+            }
+            if(contactToGo == 'Ladakh')
+            {
+                if(singlekey == 'LA')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Ladakh'})
+                }
+            }
+            if(contactToGo == 'Lakshadweep')
+            {
+                if(singlekey == 'LD')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Lakshadweep'})
+                }
+            }
+            if(contactToGo == 'Maharashtra')
+            {
+                if(singlekey == 'MH')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Maharashtra'})
+                }
+            }
+            if(contactToGo == 'Meghalaya')
+            {
+                if(singlekey == 'ML')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Meghalaya'})
+                }
+            }
+            if(contactToGo == 'Manipur')
+            {
+                if(singlekey == 'MN')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Manipur'})
+                }
+            }
+            if(contactToGo == 'Madhya Pradesh')
+            {
+                if(singlekey == 'MP')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Madhya Pradesh'})
+                }
+            }
+            if(contactToGo == 'Mizoram')
+            {
+                if(singlekey == 'MZ')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Mizoram'})
+                }
+            }
+            if(contactToGo == 'Nagaland')
+            {
+                if(singlekey == 'NL')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Nagaland'})
+                }
+            }
+            if(contactToGo == 'Odisha')
+            {
+                if(singlekey == 'OR')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Odisha'})
+                }
+            }
+            if(contactToGo == 'Punjab')
+            {
+                if(singlekey == 'PB')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Punjab'})
+                }
+            }
+            if(contactToGo == 'Pondicherry')
+            {
+                if(singlekey == 'PY')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Pondicherry'})
+                }
+            }
+            if(contactToGo == 'Rajasthan')
+            {
+                if(singlekey == 'RJ')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Rajasthan'})
+                }
+            }
+            if(contactToGo == 'Sikkim')
+            {
+                if(singlekey == 'SK')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Sikkim'})
+                }
+            }
+            if(contactToGo == 'Telangana')
+            {
+                if(singlekey == 'TG')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Telangana'})
+                }
+            }
+            if(contactToGo == 'Tamil Nadu')
+            {
+                if(singlekey == 'TN')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Tamil Nadu'})
+                }
+            }
+            if(contactToGo == 'Tripura')
+            {
+                if(singlekey == 'TR')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Tripura'})
+                }
+            }
+            if(contactToGo == 'Uttar Pradesh')
+            {
+                if(singlekey == 'UP')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Uttar Pradesh'})
+                }
+            }
+            if(contactToGo == 'Uttarakhand')
+            {
+                if(singlekey == 'UT')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Uttarakhand'})
+                }
+            }
+            
+            if(contactToGo == 'West Bengal')
+            {
+                if(singlekey == 'WB')
+                {
+                    state.push({ value:statedis[singlekey],key : 'West Bengal'})
+                }
+            }
+            
+        }
+        var statesdid= [];
+       // console.log('state',state[0].value.districts);
+        var str = state[0].value.districts;
+        
+        statesdid.push({
+            
+            value:Object.entries(str)
+        });
+       
+       // console.log('statesdid',statesdid);
+        component.set('v.disstList',statesdid);
+        component.set("v.isOpen", true);
+    },
+    
+    closeModel: function(component, event, helper) {
+        // for Hide/Close Model,set the "isOpen" attribute to "Fasle"  
+        component.set("v.isOpen", false);
+    },
+    
+    doFilter: function(component, event, helper) {  
+     //calling helper  
+     helper.FilterRecords(component);  
+   },  
+    
+    onClickMenu : function(component, event, helper) {
+        //document.getElementById("myTopnav").style.display = "block";
+        var x = document.getElementById("myTopnav");
+       // console.log('xclass',x.className);
+        if (x.className === "topnav") {
+            x.className += " responsive";
+        } else {
+            x.className = "topnav";
+        }
+    },
+      
+    worldData : function(component, event) {
+        
+        component.set('v.Worlddata',false);
+        component.set('v.StateData',false);
+       
+        var action = component.get("c.CovidresultWorld");
+        action.setCallback(this, function(response) {
+            var state = response.getState();
+            if(state === "SUCCESS")
+            {
+                var StoreResponse = response.getReturnValue();
+                //console.log('World',StoreResponse.Global);
+               component.set("v.WorldMapData",StoreResponse.Global);
+               var labels = [];
+                var values = [];
+                
+                var str = StoreResponse.Global;
+                //console.log('str',str);
+                var dataMap = new Map(Object.entries(str));
+                var resultMap = new Map();
+                 var resultMap = new Map();
+                for (const key of dataMap.keys())  {
+                    labels.push(key);
+                }
+                for(const key of dataMap.values())
+                {
+                    values.push(key);  
+                }
+               
+                //console.log('labels',labels);
+                //console.log('values',values);
+                var barColors = ["red", "green","blue","orange","yellow","pink","brown"];
+                
+                new Chart("myChartbar", {
+                    type: "doughnut",
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: values
+                        }]
+                    },
+                    options: {
+                        //legend: {display: false},
+                        title: {
+                            display: true,
+                            text: "World Wide Covid-19 Cases"
+                        }
+                    }
+                });
+                
+            } // if statement end 
+            else if (state === "INCOMPLETE") {
+                // do something
+            }
+                else if (state === "ERROR") {
+                    var errors = response.getError();
+                    if (errors) {
+                        if (errors[0] && errors[0].message) {
+                            console.log("Error message: " + 
+                                        errors[0].message);
+                        }
+                    } else {
+                        console.log("Unknown error");
+                    }
+                } 
+            
+        });
+        $A.enqueueAction(action);
+    },
+    
+    stateData : function(component, event) {
+        component.set('v.Worlddata',true);
+       
+       var action = component.get("c.Covidresult");
+        action.setCallback(this, function(response) {
+            var state = response.getState();
+            if(state === "SUCCESS")
+            {
+                var StoreResponse = response.getReturnValue();
+               // console.log('res',StoreResponse);
+                component.set('v.districtList',StoreResponse);
+                var Total = [];
+                var state = [];
+                for(var singlekey in StoreResponse)
+                {
+                    if(singlekey == 'AP')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Andhra Pradesh'})
+                    }
+                    if(singlekey == 'AR')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Arunachal Pradesh'})
+                    }
+                    if(singlekey == 'AS')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Assam'})
+                    }
+                    if(singlekey == 'BR')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Bihar'})
+                    }
+                    if(singlekey == 'CT')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Chhattisgarh'})
+                    }
+                    if(singlekey == 'GA')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Goa'})
+                    }
+                    if(singlekey == 'GJ')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Gujarat'})
+                    }
+                    if(singlekey == 'HR')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Haryana'})
+                    }
+                    if(singlekey == 'HP')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Himachal Pradesh'})
+                    }
+                    if(singlekey == 'JK')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Jammu and Kashmir'})
+                    }
+                    if(singlekey == 'JH')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Jharkhand'})
+                    }
+                    if(singlekey == 'KA')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Karnataka'})
+                    }
+                    if(singlekey == 'KL')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Kerala'})
+                    }
+                    if(singlekey == 'MP')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Madhya Pradesh'})
+                    }
+                    if(singlekey == 'MH')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Maharashtra'})
+                    }
+                    if(singlekey == 'MN')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Manipur'})
+                    }
+                    if(singlekey == 'ML')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Meghalaya'})
+                    }
+                    if(singlekey == 'MZ')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Mizoram'})
+                    }
+                    if(singlekey == 'NL')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Nagaland'})
+                    }
+                    if(singlekey == 'OR')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Odisha'})
+                    }
+                    if(singlekey == 'PB')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Punjab'})
+                    }
+                    if(singlekey == 'RJ')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Rajasthan'})
+                    }
+                    if(singlekey == 'SK')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Sikkim'})
+                    }
+                    if(singlekey == 'TN')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Tamil Nadu'})
+                    }
+                    if(singlekey == 'TR')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Tripura'})
+                    }
+                    if(singlekey == 'UT')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Uttarakhand'})
+                    }
+                    if(singlekey == 'UP')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Uttar Pradesh'})
+                    }
+                    if(singlekey == 'WB')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'West Bengal'})
+                    }
+                    if(singlekey == 'AN')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Andaman and Nicobar Islands'})
+                    }
+                    if(singlekey == 'DN')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Dadra and Nagar Haveli and Daman and Diu'})
+                    }
+                    
+                    if(singlekey == 'DL')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Delhi'})
+                    }
+                    if(singlekey == 'LD')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Lakshadweep'})
+                    }
+                    if(singlekey == 'PY')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Pondicherry'})
+                    }
+                    if(singlekey == 'TG')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Telangana'})
+                    }
+                    if( singlekey == 'CH')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Chandigarh'})   
+                    }
+                    if( singlekey == 'LA')
+                    {
+                        state.push({ value:StoreResponse[singlekey],key : 'Ladakh'})   
+                    }
+                    if( singlekey == 'TT')
+                    {
+                        Total.push({ value:StoreResponse[singlekey],key : 'India'})   
+                    }
+                    
+                }
+               // console.log('map',state);
+                
+                var labels = [];
+                var values = [];
+                
+                var str = Total[0].value.total;
+                console.log('str',str);
+                var dataMap = new Map(Object.entries(str));
+                var resultMap = new Map();
+                 var resultMap = new Map();
+                for (const key of dataMap.keys())  {
+                    labels.push(key);
+                }
+                for(const key of dataMap.values())
+                {
+                    values.push(key);  
+                }
+               
+                var barColors = ["red", "green","blue","orange","yellow","pink","brown"];
+                
+                new Chart("myChart", {
+                    type: "doughnut",
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: values
+                        }]
+                    },
+                    options: {
+                        //legend: {display: false},
+                        title: {
+                            display: true,
+                            text: "Covid-19 Cases in India"
+                        }
+                    }
+                });
+                
+               
+                var dt  =   new Date(Total[0].value.meta.last_updated).toString();
+               // console.log('dt',dt);
+                var index = dt.lastIndexOf(':') +3
+                console.log('sgfs',dt.substring(0, index))
+                component.set('v.LastUpdatedDate',dt.substring(0, index));
+                component.set("v.stateList", state);
+                component.set("v.UnfilteredData",state);  
+                component.set('v.totalList',Total);
+                
+               
+            } // if statement end 
+            else if (state === "INCOMPLETE") {
+                // do something
+            }
+                else if (state === "ERROR") {
+                    var errors = response.getError();
+                    if (errors) {
+                        if (errors[0] && errors[0].message) {
+                            console.log("Error message: " + 
+                                        errors[0].message);
+                        }
+                    } else {
+                        console.log("Unknown error");
+                    }
+                } 
+            
+        });
+        $A.enqueueAction(action); 
+                
+    },
+    
+     handleGraphclose : function(component,event,helper){
+         component.set("v.statenameboolean",false);
+     },
+   handleGraph : function(component,event,helper){
+        var selectedItem = event.currentTarget;
+        var contactToGo= selectedItem.dataset.variablename;
+     //  console.log('contactToGo',contactToGo);
+       component.set("v.Statenamedata",contactToGo);
+       component.set("v.statenameboolean",true);
+       var district =  component.get("v.districtList");
+       // console.log('dis',district);
+       
+      // helper.open(component,helper,district,contactToGo);
+       
+       window.setTimeout(
+           $A.getCallback(function() {
+              helper.open(component,helper,district,contactToGo);
+           }), 500
+       );
+        
+   },
+})

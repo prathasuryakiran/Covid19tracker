@@ -1,0 +1,527 @@
+<aura:component controller="Covid19result" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <ltng:require scripts="{!$Resource.Chartjs}" afterScriptsLoaded="{!c.doInit}"/>
+    <aura:attribute name="Statenamedata" type="String"/>
+    <aura:attribute name="statenameboolean" type="boolean" default="false"/>
+    <aura:attribute name="Worlddata" type="boolean" default="true"/>
+    <aura:attribute name="StateData" type="boolean" default="true"/>
+    <aura:attribute name="WorldMapData" type="Map"/>
+    <aura:attribute name="UnfilteredData" type="Contact[]" />  
+    <aura:attribute name="filter" type="String" />  
+    <aura:handler name="change" value="{!v.filter}" action="{!c.doFilter}" />  
+    
+    
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    <!--create a component attributs -->
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    
+    <!--<aura:handler name="init" action="{!c.doInit}" value="{!this}" />-->
+    <aura:attribute name="LastUpdatedDate" type="String" />
+    <aura:attribute name="stateList" type="Object" />
+    <aura:attribute name="totalList" type="Object"/>
+    <aura:attribute name="districtList" type="Object" />
+    <aura:attribute name="disstList" type="Map" />
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:attribute name="statename" type="String" default="StateName"/> 
+    <aura:attribute name="width" type="String"/>
+    <lightning:flexipageRegionInfo width="{!v.width}"/>
+    <div class="{! 'container' + (v.width=='SMALL'?' narrowRegion':'')}">
+        <!--loading spinner start... style=Brand Medium (blue dots)-->
+        <aura:if isTrue="{!v.Spinner}">
+            <div aura:id="spinnerId" class="slds-spinner_container">
+                <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+            
+            <center> <img src="https://www.statnews.com/wp-content/uploads/2020/02/Coronavirus-CDC-645x645.jpg"  alt="Placeholder" width="300" height="200"/></center>
+        </aura:if>
+       
+        <!-- Loading spinner end--> 
+
+       
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+         
+       <header>
+            <div class="topnav" id="myTopnav">
+                <a  class="closebtn"></a>
+                <a href="javascript:void(0);" class="active" onclick="{!c.worldData}"><b>World Statistical</b></a>
+                <!--<a href="javascript:void(0);" class="active" onclick="{!c.worldIndiaData}"><b>Total Covid-19 Cases</b></a>-->
+                <a href="javascript:void(0);" class="active" onclick="{!c.stateData}"><b>India Statistical</b></a>
+               <!-- <a href="#about" class="active"><b> Total Covid-19 Vaccinated </b></a>-->
+                <a href="javascript:void(0);" class="icon" onclick="{!c.onClickMenu}">
+                    <i class="fa fa-bars"> </i>
+                </a>
+            </div>
+        </header>
+        
+        
+        
+       
+        <aura:if isTrue="{!v.Worlddata}">
+        <div class="slds-page-header" style="background-color:Lavender;">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                <div class="slds-align_absolute-center slds-text-title_bold">
+                    <span class="slds-page-header__title slds-truncate " title="Total Covid 19 Cases in India">Total Covid 19 Cases in India</span>
+                </div>
+            </div>
+        </div>     
+          
+  
+    
+        <div class="slds-grid slds-wrap"> 
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                <div class="slds-theme_shade slds-box_x-small slds-text-align_center slds-m-around_x-small">
+                    <span>
+                        <aura:if isTrue="{!not(empty(v.totalList[0].value.delta.confirmed))}">
+                            <lightning:icon iconName="utility:arrowup" alternativeText="arrowup" variant="error"
+                                            title="arrowup" size="xx-small" />  <ui:outputNumber class="slds-text-heading_small slds-text-color_error slds-is-static" value="{!v.totalList[0].value.delta.confirmed}"/><br/>
+                        </aura:if>
+                        <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Tomato;"><b>Confirmed :</b> </label>
+                        <ui:outputNumber class="slds-text-heading_medium slds-is-static slds-text-color_default " value="{!v.totalList[0].value.total.confirmed}"/>
+                    </span>
+                </div>
+            </div>
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                <div class="slds-theme_shade slds-box_x-small slds-text-align_center slds-m-around_x-small">
+                    <span>
+                        <br/>
+                        <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Blue;"><b>Active :</b> </label>
+                        <ui:outputNumber class="slds-text-heading_medium slds-is-static slds-text-color_default " value="{!v.totalList[0].value.total.confirmed - v.totalList[0].value.total.recovered - v.totalList[0].value.total.deceased}"/>
+                    </span>
+                </div>
+            </div>
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                <div class="slds-theme_shade slds-box_x-small slds-text-align_center slds-m-around_x-small">
+                    <span>
+                        <aura:if isTrue="{!not(empty(v.totalList[0].value.delta.recovered))}">
+                            <lightning:icon iconName="utility:arrowup" alternativeText="arrowup" variant="success"
+                                            title="arrowup" size="xx-small" />  <ui:outputNumber class="slds-text-heading_small slds-text-color_success slds-is-static" value="{!v.totalList[0].value.delta.recovered}"/><br/>
+                        </aura:if>
+                        <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Gray;"><b>Recovered :</b> </label>
+                        <ui:outputNumber class="slds-text-heading_medium slds-is-static slds-text-color_default " value="{!v.totalList[0].value.total.recovered}"/>
+                    </span>
+                </div>
+            </div>
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                <div class="slds-theme_shade slds-box_x-small slds-text-align_center slds-m-around_x-small">
+                    <span>
+                        <aura:if isTrue="{!not(empty(v.totalList[0].value.delta.deceased))}">
+                            <lightning:icon iconName="utility:arrowup" alternativeText="arrowup" variant="weak"
+                                            title="arrowup" size="xx-small" />  <ui:outputNumber class="slds-text-heading_small slds-text-color_weak slds-is-static" value="{!v.totalList[0].value.delta.deceased}"/><br/>
+                        </aura:if>
+                        <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Black;"><b>Death :</b> </label>
+                        <ui:outputNumber class="slds-text-heading_medium slds-is-static slds-text-color_default " value="{!v.totalList[0].value.total.deceased}"/>
+                    </span>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- chartjs start-->
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-align_absolute-center" >
+                    <canvas id="myChart" style="width:770px;height:385px;max-width:380px;"></canvas>
+                    
+                </div>
+            </div>
+            <!-- chart js end -->
+        <div class="slds-page-header">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                <div class="slds-align_absolute-center">
+                    <lightning:input name="x" value="{!v.filter}" label="" placeholder="Search your state" autocomplete="off" type="search"/> 
+                </div>    
+                <div class="slds-align_absolute-center slds-text-title_bold">
+                   LastUpdated: {!v.LastUpdatedDate} IST &nbsp;
+                    <lightning:icon iconName="utility:clock" alternativeText="clock" variant="success"
+                                    title="clock" size="xx-small" /> 
+                </div>
+            </div>
+            
+            
+        </div>     
+        
+        
+        
+        <aura:iteration items="{!v.stateList}" var="cus" indexVar="key">
+            
+            <!--{!key+1}  -  {!cus.key} - {!cus.value.total.confirmed} -->
+            <div class="slds-p-around_small">
+                <lightning:card  title="{!cus.key}" iconName="standard:store_group" >
+                    
+                    <aura:set attribute="actions">
+                        <lightning:button label="Districts" onclick="{!c.handleDistricts}" aura:id="state" name="{!cus.key}"/>
+                    </aura:set>
+                    
+                    <aura:set attribute="footer">
+                        <div>
+                            <center>
+                              <span>  <a class="slds-card__footer-action"
+                                   href="javascript:void(0);" onclick="{!c.handleGraph}" data-variablename="{!cus.key}">View Graph
+                                </a>
+                                </span>
+                                <span>
+                                <a class="slds-card__footer-action"
+                                   href="javascript:void(0);" onclick="{!c.handleGraphclose}" data-variablename="{!cus.key}">Close Graph
+                                </a>
+                                </span>
+                            </center>
+                        </div>
+                    </aura:set>
+                    
+                    
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                            <div class="slds-box slds-theme_shade slds-box_x-small slds-text-align_center slds-m-around_x-small">
+                                <span>
+                                    <aura:if isTrue="{!not(empty(cus.value.delta.confirmed))}">
+                                        <lightning:icon iconName="utility:arrowup" alternativeText="arrowup" variant="error"
+                                                        title="arrowup" size="xx-small" />  <ui:outputNumber class="slds-text-heading_small slds-text-color_error slds-is-static" value="{!cus.value.delta.confirmed}"/><br/>
+                                        <aura:set attribute="else">
+                                            <br/>
+                                        </aura:set>
+                                        
+                                    </aura:if>
+                                    <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Tomato;"><b>Confirmed :</b> </label>
+                                    <ui:outputNumber class="slds-text-heading_medium slds-is-static slds-text-color_default " value="{!cus.value.total.confirmed}"/>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                            <div class="slds-box slds-theme_shade slds-box_x-small slds-text-align_center slds-m-around_x-small">
+                                <span>
+                                    <br/>
+                                    <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Darkviolet;"><b> Active :</b> </label>
+                                    <ui:outputNumber class="slds-text-heading_medium slds-is-static" value="{!cus.value.total.confirmed - cus.value.total.recovered - cus.value.total.deceased}"/>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                            <div class="slds-box slds-theme_shade slds-box_x-small slds-text-align_center slds-m-around_x-small">
+                                <span>
+                                    <aura:if isTrue="{!not(empty(cus.value.delta.recovered))}">
+                                        <lightning:icon iconName="utility:arrowup" alternativeText="arrowup" variant="success"
+                                                        title="arrowup" size="xx-small" />  <ui:outputNumber class="slds-text-heading_small slds-text-color_success slds-is-static" value="{!cus.value.delta.recovered}"/><br/>
+                                        <aura:set attribute="else">
+                                            <br/>
+                                        </aura:set>
+                                    </aura:if>
+                                    <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:MediumSeaGreen;"> <b>Recovered :</b> </label>
+                                    <ui:outputNumber class="slds-text-heading_medium slds-is-static" value="{!cus.value.total.recovered}"/>
+                                </span>
+                            </div>
+                        </div>
+                        <div class=" slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                            <div class="slds-box slds-theme_shade slds-box_x-small slds-text-align_center slds-m-around_x-small">
+                                <span>
+                                    <aura:if isTrue="{!not(empty(cus.value.delta.deceased))}">
+                                        <lightning:icon iconName="utility:arrowup" alternativeText="arrowup" variant="weak"
+                                                        title="arrowup" size="xx-small" />  <ui:outputNumber class="slds-text-heading_small slds-text-color_weak slds-is-static" value="{!cus.value.delta.deceased}"/><br/>   
+                                        <aura:set attribute="else">
+                                            <br/>
+                                        </aura:set>
+                                    </aura:if>
+                                    
+                                    <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:DodgerBlue;"> <b>Death :</b> </label>
+                                    <ui:outputNumber class="slds-text-heading_medium slds-is-static" value="{!cus.value.total.deceased}"/>
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                   
+                   <aura:if isTrue="{!v.statenameboolean}">
+                       <aura:if isTrue="{!v.Statenamedata == cus.key}"> 
+                          
+                           <div class="slds-grid slds-wrap">
+                               <div class="slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-align_absolute-center" >
+                                   <canvas id="myChartstate" style="width:770px;height:385px;max-width:380px;"></canvas>
+                                   
+                               </div>
+                           </div>
+                          
+                       </aura:if>
+                      
+                    </aura:if>
+                   
+                </lightning:card>
+                
+                
+                <br/><br/>
+            </div>
+        </aura:iteration>
+            <aura:set attribute="else">
+                <div class="slds-page-header" style="background-color:Lavender;">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                        <div class="slds-align_absolute-center slds-text-title_bold">
+                            <span class="slds-page-header__title slds-truncate " title="Total World Wise Covid19 Cases">Total World Wise Covid 19 Cases</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slds-grid slds-wrap"> 
+                    <div class="slds-col slds-size_12-of-12 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                        <div class="slds-theme_shade slds-box_x-small slds-text-align_center slds-m-around_x-small">
+                            <span>
+                                <aura:if isTrue="{!not(empty(v.WorldMapData.NewConfirmed))}">
+                                    <lightning:icon iconName="utility:arrowup" alternativeText="arrowup" variant="error"
+                                                    title="arrowup" size="xx-small" />  <ui:outputNumber class="slds-text-heading_small slds-text-color_error slds-is-static" value="{!v.WorldMapData.NewConfirmed}"/><br/>
+                                </aura:if>
+                                <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Tomato;"><b>Confirmed :</b> </label>
+                                <ui:outputNumber class="slds-text-heading_medium slds-is-static slds-text-color_default " value="{!v.WorldMapData.TotalConfirmed}"/>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_12-of-12 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                        <div class="slds-theme_shade slds-box_x-small slds-text-align_center slds-m-around_x-small">
+                            <span>
+                                <br/>
+                                <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Blue;"><b>Active :</b> </label>
+                                <ui:outputNumber class="slds-text-heading_medium slds-is-static slds-text-color_default " value="{!v.WorldMapData.TotalConfirmed - v.WorldMapData.TotalRecovered - v.WorldMapData.TotalDeaths}"/>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_12-of-12 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                        <div class="slds-theme_shade slds-box_x-small slds-text-align_center slds-m-around_x-small">
+                            <span>
+                                <aura:if isTrue="{!not(empty(v.WorldMapData.NewRecovered))}">
+                                    <lightning:icon iconName="utility:arrowup" alternativeText="arrowup" variant="success"
+                                                    title="arrowup" size="xx-small" />  <ui:outputNumber class="slds-text-heading_small slds-text-color_success slds-is-static" value="{!v.WorldMapData.NewRecovered}"/><br/>
+                                </aura:if>
+                                <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Gray;"><b>Recovered :</b> </label>
+                                <ui:outputNumber class="slds-text-heading_medium slds-is-static slds-text-color_default " value="{!v.WorldMapData.TotalRecovered}"/>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_12-of-12 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                        <div class="slds-theme_shade slds-box_x-small slds-text-align_center slds-m-around_x-small">
+                            <span>
+                                <aura:if isTrue="{!not(empty(v.WorldMapData.NewDeaths))}">
+                                    <lightning:icon iconName="utility:arrowup" alternativeText="arrowup" variant="weak"
+                                                    title="arrowup" size="xx-small" />  <ui:outputNumber class="slds-text-heading_small slds-text-color_weak slds-is-static" value="{!v.WorldMapData.NewDeaths}"/><br/>
+                                </aura:if>
+                                <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Black;"><b>Death :</b> </label>
+                                <ui:outputNumber class="slds-text-heading_medium slds-is-static slds-text-color_default " value="{!v.WorldMapData.TotalDeaths}"/>
+                            </span>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- chartjs start-->
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-align_absolute-center" >
+                   <canvas id="myChartbar" style="width:770px;height:385px;max-width:380px;"></canvas>
+                    
+                 </div>
+            </div>
+            <!-- chartjs end-->
+            </aura:set>
+        </aura:if>
+    </div>
+    
+    <!-- footer start-->
+    <footer role="contentinfo"  class="slds-p-around_large" style="background-color:gainsboro">
+        <!-- LAYOUT GRID -->
+        <div class="slds-grid slds-grid_align-spread ">
+            <p class="slds-col slds-align_absolute-center ">
+                <i>
+                    
+                    <a class="fa fa-facebook-official" href="https://www.facebook.com/public/Suryakiran-Prata" target="_blank">&nbsp;</a>
+                </i>
+                <i><a class="fa fa-instagram" href="https://www.instagram.com/kiran9000687822/" target="_blank">&nbsp;</a></i>
+               
+                <i><a class="fa fa-linkedin" href="https://in.linkedin.com/in/suryakiran-pratha-6a8610145" target="_blank">&nbsp;</a></i>
+            <i><a class="fa fa-envelope" href="mailto:kiran9000687822@gmail.com" target="_blank">&nbsp;</a></i></p>
+        
+            
+            
+            <p class="slds-col slds-align_absolute-center">Designed by Pratha.Suryakiran</p>
+        </div>
+        <!-- / LAYOUT GRID -->
+    </footer>
+
+    <!-- footer end-->
+    <aura:if isTrue="{!v.isOpen}">
+        
+        <!--###### MODAL BOX Start######--> 
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+                <!-- ###### MODAL BOX HEADER Start ######-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModel }"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!v.statename}</h2>
+                </header>
+                <!--###### MODAL BOX BODY Part Start######-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <aura:iteration items="{!v.disstList}" var="cus" >
+                        <aura:iteration items="{!cus.value}" var="dis" indexVar="key">
+                            <lightning:card  title="{!dis[0]}" iconName="standard:store_group" >
+                                <!-- <aura:set attribute="actions">
+                                        <lightning:button label="New" onclick="{!c.handleCancel}" aura:id="state" name="{!cus.key}"/>
+                                    </aura:set> -->
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-12">
+                                        <aura:if isTrue="{!not(empty(dis[1].total.confirmed))}">
+                                            <span>
+                                                <aura:if isTrue="{!not(empty(dis[1].delta.confirmed))}">
+                                                    <lightning:icon iconName="utility:arrowup" alternativeText="arrowup" variant="error"
+                                                                    title="arrowup" size="xx-small" />  <ui:outputNumber class="slds-text-heading_small slds-text-color_error slds-is-static" value="{!dis[1].delta.confirmed}"/><br/>   
+                                                    <aura:set attribute="else">
+                                                        <br/>
+                                                    </aura:set>
+                                                </aura:if>
+                                                <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Tomato;"><b>Confirmed :</b> </label>
+                                                <ui:outputNumber class="slds-text-heading_medium slds-is-static" value="{!dis[1].total.confirmed}"/>
+                                                
+                                            </span>
+                                            <aura:set attribute="else">
+                                                <span>
+                                                    <br/>
+                                                    <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Tomato;"><b>Confirmed :</b> </label>
+                                                    <ui:outputNumber class="slds-text-heading_medium slds-is-static" value="0"/>
+                                                    
+                                                </span>
+                                            </aura:set>
+                                        </aura:if>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-12">
+                                         <aura:if isTrue="{!not(empty(dis[1].total.recovered))}">
+                                        <span>
+                                            <aura:if isTrue="{!not(empty(dis[1].delta.recovered))}">
+                                                <lightning:icon iconName="utility:arrowup" alternativeText="arrowup" variant="success"
+                                                                title="arrowup" size="xx-small" />  <ui:outputNumber class="slds-text-heading_small slds-text-color_success slds-is-static" value="{!dis[1].delta.recovered}"/><br/>   
+                                                <aura:set attribute="else">
+                                                    <br/>
+                                                </aura:set>
+                                            </aura:if>
+                                            <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:MediumSeaGreen;"> <b>Recovered :</b> </label>
+                                            <ui:outputNumber class="slds-text-heading_medium slds-is-static" value="{!dis[1].total.recovered}"/>&nbsp;
+                                        </span>
+                                             <aura:set attribute="else">
+                                                 <span>
+                                                     <br/>
+                                                     <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:MediumSeaGreen;"> <b>Recovered :</b> </label>
+                                                     <ui:outputNumber class="slds-text-heading_medium slds-is-static" value="0"/>&nbsp;
+                                                 </span>
+                                             </aura:set>
+                                        </aura:if>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-12">
+                                         <aura:if isTrue="{!not(empty(dis[1].total.deceased))}">
+                                        <span>
+                                            <aura:if isTrue="{!not(empty(dis[1].delta.deceased))}">
+                                                <lightning:icon iconName="utility:arrowup" alternativeText="arrowup" variant="weak"
+                                                                title="arrowup" size="xx-small" />  <ui:outputNumber class="slds-text-heading_small slds-text-color_weak slds-is-static" value="{!dis[1].delta.deceased}"/><br/>   
+                                                <aura:set attribute="else">
+                                                    <br/>
+                                                </aura:set>
+                                            </aura:if>
+                                            <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:DodgerBlue;"> <b>Death :</b> </label>
+                                            <ui:outputNumber class="slds-text-heading_medium slds-is-static" value="{!dis[1].total.deceased}"/>&nbsp;&nbsp;
+                                        </span>
+                                             <aura:set attribute="else">
+                                                 <span>
+                                                     <br/>
+                                                     <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:DodgerBlue;"> <b>Death :</b> </label>
+                                                     <ui:outputNumber class="slds-text-heading_medium slds-is-static" value="0"/>&nbsp;&nbsp;
+                                                 </span>
+                                             </aura:set>
+                                        </aura:if>
+                                    </div>
+                                    
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-12">
+                                        <aura:if isTrue="{!not(empty(dis[1].total.confirmed))}">
+                                            <aura:if isTrue="{!not(empty(dis[1].total.recovered))}"> 
+                                                <aura:if isTrue="{!not(empty(dis[1].total.deceased))}"> 
+                                                <span>
+                                                    <br/>
+                                                    <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Darkviolet;"><b> Active :</b> </label>
+                                                    <ui:outputNumber class="slds-text-heading_medium slds-is-static" value="{!dis[1].total.confirmed - dis[1].total.recovered - dis[1].total.deceased}"/>
+                                                </span>
+                                                <aura:set attribute="else">
+                                                    <span>
+                                                        <br/>
+                                                        <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Darkviolet;"><b> Active :</b> </label>
+                                                        <ui:outputNumber class="slds-text-heading_medium slds-is-static" value="{!dis[1].total.confirmed - dis[1].total.recovered}"/>
+                                                    </span>
+                                                </aura:set>
+                                                </aura:if>
+                                                <aura:set attribute="else">
+                                                    <span>
+                                                        <br/>
+                                                        <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Darkviolet;"><b> Active :</b> </label>
+                                                        <ui:outputNumber class="slds-text-heading_medium slds-is-static" value="0"/>
+                                                    </span>
+                                                </aura:set>
+                                            </aura:if>
+                                            <aura:set attribute="else">
+                                                <span>
+                                                    <br/>
+                                                    <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Darkviolet;"><b> Active :</b> </label>
+                                                    <ui:outputNumber class="slds-text-heading_medium slds-is-static" value="0"/>
+                                                </span>
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                       
+                                    </div>
+                                    <!--<div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_2-of-12">
+                                        <span>
+                                            <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Gray;"> <b>Tested :</b> </label>
+                                            <ui:outputNumber class="slds-text-heading_medium slds-is-static" value="{!dis[1].total.tested}"/>
+                                        </span>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-12">
+                                        <span>
+                                            <label class="slds-text-heading_medium slds-is-static slds-hyphenate slds-text-body_regular" style="color:Black;"> <b>Vaccinated :</b> </label>
+                                            <ui:outputNumber class="slds-text-heading_medium slds-is-static" value="{!dis[1].total.vaccinated1}"/>
+                                        </span>
+                                    </div>-->
+                                </div>
+                                <!-- <p class=" slds-p-horizontal_small ">
+                                        <h2 class="slds-align_absolute-center">Confirmed : {!dis[1].total.confirmed}</h2> 
+                                        <h2 class="slds-align_absolute-center">Recovered : {!dis[1].total.recovered}</h2>
+                                        <h2 class="slds-align_absolute-center">Decreased : {!dis[1].total.deceased} </h2>
+                                        <h2 class="slds-align_absolute-center">Tested : {!dis[1].total.tested} </h2>
+                                        <h2 class="slds-align_absolute-center">Vaccinated : {!dis[1].total.vaccinated} </h2>
+                                    </p>-->
+                            </lightning:card>
+                            
+                            <!--{!dis[0]} - {!dis[1].total.confirmed} -->
+                            
+                            <br/><br/>  
+                        </aura:iteration>
+                        
+                    </aura:iteration>
+                </div>
+                <!--###### MODAL BOX FOOTER Part Start ######-->
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral" 
+                                      label="Cancel"
+                                      title="Cancel"
+                                      onclick="{! c.closeModel }"/>
+                    
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        <!--###### MODAL BOX Part END Here ######-->
+        
+    </aura:if>
+    
+    
+    
+    
+</aura:component>

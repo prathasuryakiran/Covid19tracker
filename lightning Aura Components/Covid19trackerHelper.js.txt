@@ -1,0 +1,334 @@
+({  
+   FilterRecords: function(component) {  
+     //data showing in table  
+     var data = component.get("v.stateList"); 
+      //  console.log('data',data);
+     // all data featched from apex when component loaded  
+     var allData = component.get("v.UnfilteredData");  
+     //Search tems  
+     var searchKey = component.get("v.filter");
+     //  console.log('searchKey',searchKey);
+     // check is data is not undefined and its lenght is greater than 0  
+     if(data != undefined || data.length > 0){  
+       // filter method create a new array tha pass the test (provided as function)  
+       var filtereddata = allData.filter(word => (!searchKey) || word.key.toLowerCase().indexOf(searchKey.toLowerCase()) > -1);  
+      // console.log('** '+filtereddata);  
+     }  
+     // set new filtered array value to data showing in the table.  
+     component.set("v.stateList", filtereddata);  
+     // check if searchKey is blank  
+     if(searchKey==''){  
+       // set unfiltered data to data in the table.  
+       component.set("v.stateList",component.get("v.UnfilteredData"));  
+     }  
+   },
+    
+    open : function(component,helper,district,contactToGo)
+    {
+        
+       var stateboolean = component.get("v.statenameboolean");
+        console.log('stateboolean',stateboolean);
+        var statedis =  district;
+        var state = [];
+        for(var singlekey in statedis)
+        {
+            if(contactToGo == 'Andhra Pradesh')
+            {
+                if(singlekey == 'AP')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Andhra Pradesh'})
+                }
+            }
+            if(contactToGo == 'Arunachal Pradesh')
+            {
+                if(singlekey == 'AR')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Arunachal Pradesh'})
+                }
+            }
+            if(contactToGo == 'Andaman and Nicobar Islands')
+            {
+                if(singlekey == 'AN')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Andaman and Nicobar Islands'})
+                }
+            }
+            if(contactToGo == 'Assam')
+            {
+                if(singlekey == 'AS')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Assam'})
+                }
+            }
+            if(contactToGo == 'Bihar')
+            {
+                if(singlekey == 'BR')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Bihar'})
+                }
+            }
+            if(contactToGo == 'Chandigarh')
+            {
+                if(singlekey == 'CH')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Chandigarh'})
+                }
+            }
+            if(contactToGo == 'Chhattisgarh')
+            {
+                if(singlekey == 'CT')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Chhattisgarh'})
+                }
+            }
+            if(contactToGo == 'Delhi')
+            {
+                if(singlekey == 'DL')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Delhi'})
+                }
+            }
+            if(contactToGo == 'Dadra and Nagar Haveli and Daman and Diu')
+            {
+                if(singlekey == 'DN')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Dadra and Nagar Haveli and Daman and Diu'})
+                }
+            }
+            if(contactToGo == 'Goa')
+            {
+                if(singlekey == 'GA')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Goa'})
+                }
+            }
+            
+            if(contactToGo == 'Gujarat')
+            {
+                if(singlekey == 'GJ')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Gujarat'})
+                }
+            }
+            if(contactToGo == 'Himachal Pradesh')
+            {
+                if(singlekey == 'HP')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Himachal Pradesh'})
+                }
+            }
+            if(contactToGo == 'Haryana')
+            {
+                if(singlekey == 'HR')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Haryana'})
+                }
+            }
+            if(contactToGo == 'Jharkhand')
+            {
+                if(singlekey == 'JH')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Jharkhand'})
+                }
+            }
+            if(contactToGo == 'Jammu and Kashmir')
+            {
+                if(singlekey == 'JK')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Jammu and Kashmir'})
+                }
+            }
+            if(contactToGo == 'Karnataka')
+            {
+                if(singlekey == 'KA')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Karnataka'})
+                }
+            }
+            if(contactToGo == 'Kerala')
+            {
+                if(singlekey == 'KL')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Kerala'})
+                }
+            }
+            if(contactToGo == 'Ladakh')
+            {
+                if(singlekey == 'LA')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Ladakh'})
+                }
+            }
+            if(contactToGo == 'Lakshadweep')
+            {
+                if(singlekey == 'LD')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Lakshadweep'})
+                }
+            }
+            if(contactToGo == 'Maharashtra')
+            {
+                if(singlekey == 'MH')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Maharashtra'})
+                }
+            }
+            if(contactToGo == 'Meghalaya')
+            {
+                if(singlekey == 'ML')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Meghalaya'})
+                }
+            }
+            if(contactToGo == 'Manipur')
+            {
+                if(singlekey == 'MN')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Manipur'})
+                }
+            }
+            if(contactToGo == 'Madhya Pradesh')
+            {
+                if(singlekey == 'MP')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Madhya Pradesh'})
+                }
+            }
+            if(contactToGo == 'Mizoram')
+            {
+                if(singlekey == 'MZ')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Mizoram'})
+                }
+            }
+            if(contactToGo == 'Nagaland')
+            {
+                if(singlekey == 'NL')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Nagaland'})
+                }
+            }
+            if(contactToGo == 'Odisha')
+            {
+                if(singlekey == 'OR')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Odisha'})
+                }
+            }
+            if(contactToGo == 'Punjab')
+            {
+                if(singlekey == 'PB')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Punjab'})
+                }
+            }
+            if(contactToGo == 'Pondicherry')
+            {
+                if(singlekey == 'PY')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Pondicherry'})
+                }
+            }
+            if(contactToGo == 'Rajasthan')
+            {
+                if(singlekey == 'RJ')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Rajasthan'})
+                }
+            }
+            if(contactToGo == 'Sikkim')
+            {
+                if(singlekey == 'SK')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Sikkim'})
+                }
+            }
+            if(contactToGo == 'Telangana')
+            {
+                if(singlekey == 'TG')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Telangana'})
+                }
+            }
+            if(contactToGo == 'Tamil Nadu')
+            {
+                if(singlekey == 'TN')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Tamil Nadu'})
+                }
+            }
+            if(contactToGo == 'Tripura')
+            {
+                if(singlekey == 'TR')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Tripura'})
+                }
+            }
+            if(contactToGo == 'Uttar Pradesh')
+            {
+                if(singlekey == 'UP')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Uttar Pradesh'})
+                }
+            }
+            if(contactToGo == 'Uttarakhand')
+            {
+                if(singlekey == 'UT')
+                {
+                    state.push({ value:statedis[singlekey],key : 'Uttarakhand'})
+                }
+            }
+            
+            if(contactToGo == 'West Bengal')
+            {
+                if(singlekey == 'WB')
+                {
+                    state.push({ value:statedis[singlekey],key : 'West Bengal'})
+                }
+            }
+            
+        }
+        var statesdid= [];
+        //console.log('state',state[0].value.total);
+      
+       
+         var labels = [];
+                var values = [];
+                
+               var str = state[0].value.total;
+                console.log('str',str);
+                var dataMap = new Map(Object.entries(str));
+               
+                for (const key of dataMap.keys())  {
+                    labels.push(key);
+                }
+                for(const key of dataMap.values())
+                {
+                    values.push(key);  
+                }
+        
+        console.log(labels);
+        console.log(values);       
+                var barColors = ["red", "green","blue","orange","yellow","pink","brown"];
+                
+                new Chart("myChartstate", {
+                    type: "doughnut",
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: values
+                        }]
+                    },
+                    options: {
+                        //legend: {display: false},
+                        title: {
+                            display: true,
+                            text: "Covid-19 Cases in " + contactToGo
+                        }
+                    }
+                });
+        
+        
+    }
+ })

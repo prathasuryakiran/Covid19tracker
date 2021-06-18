@@ -1,0 +1,57 @@
+public class Covid19result {
+    
+    @AuraEnabled 
+    public static Map<String, Object> Covidresult()
+    {
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('callout:covid19result/v4/min/data.min.json');
+      //  req.setEndpoint('https://api.covid19india.org/v4/min/data.min.json');
+        req.setMethod('GET');
+        Http http = new Http();
+        HTTPResponse res = http.send(req);
+        Map<String, Object> m; 
+        system.debug('statuscode'+res.getStatusCode());
+        if (res.getStatusCode() == 200) {
+            // System.debug(res.getBody());
+            String jsonInput = res.getBody();
+            // system.debug('<<<<jsonInput>>>>'+jsonInput);
+            m = (Map<String, Object>)JSON.deserializeUntyped(jsonInput);
+            
+        }
+        else {
+            System.debug('Callout failed: ' + res);
+        } 
+        
+        return m;
+        
+        
+    }
+    
+    //world wise data
+     @AuraEnabled 
+    public static Map<String, Object> CovidresultWorld()
+    {
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('https://api.covid19api.com/summary');
+    
+        req.setMethod('GET');
+        Http http = new Http();
+        HTTPResponse res = http.send(req);
+        Map<String, Object> m; 
+        system.debug('statuscode'+res.getStatusCode());
+        if (res.getStatusCode() == 200) {
+            // System.debug(res.getBody());
+            String jsonInput = res.getBody();
+            system.debug('<<<<WorldData>>>>'+jsonInput);
+            m = (Map<String, Object>)JSON.deserializeUntyped(jsonInput);
+            
+        }
+        else {
+            System.debug('Callout failed: ' + res);
+        } 
+        
+        return m;
+        
+        
+    }
+}

@@ -35,3 +35,6 @@ step 1: 1)Go to Home
    step 6 : create lightning application
    
    step 7 : create Visualforce Page
+   
+   step 8) This is site url how does my code work 
+        1) Url Name :https://covid19app-developer-edition.ap16.force.com/data
